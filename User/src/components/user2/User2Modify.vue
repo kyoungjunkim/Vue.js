@@ -1,10 +1,10 @@
 <template>
-  <h4>User2 등록</h4>
-  <form @submit.prevent="user2Register">
+  <h4>User2 수정</h4>
+  <form @submit.prevent="user2Modify">
     <table border="1">
       <tr>
         <td>아이디</td>
-        <td><input type="text" v-model="user.uid" /></td>
+        <td><input type="text" v-model="user.uid" readonly /></td>
       </tr>
       <tr>
         <td>이름</td>
@@ -19,27 +19,23 @@
         <td><input type="number" v-model="user.age" /></td>
       </tr>
       <tr>
-        <td><input type="submit" value="등록" /></td>
+        <td><input type="submit" value="수정" /></td>
       </tr>
     </table>
   </form>
 </template>
 <script setup>
 import axios from "axios";
-import { reactive } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 const router = useRouter();
-const user = reactive({
-  uid: null,
-  name: null,
-  hp: null,
-  age: 0,
-});
-const user2Register = () => {
+const store = useStore();
+const user = store.getters.getUser2;
+const user2Modify = () => {
   axios
-    .post("http://localhost:8080/Ch09/user2/register", user)
+    .post("http://localhost:8080/Ch09/user2/modify", user)
     .then((response) => {
-      alert("등록완료!");
+      alert("수정완료!");
       router.push("/user2/list");
     })
     .catch((error) => {
